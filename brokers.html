@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Elige tu Broker — CopyTrade Pro</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:     #080c18;
+      --bg2:    #0d1120;
+      --card:   #111827;
+      --border: rgba(255,255,255,0.07);
+      --teal:   #00D4AA;
+      --teal2:  #00B894;
+      --blue:   #3B82F6;
+      --amber:  #F59E0B;
+      --text:   #F0F4FF;
+      --muted:  #8B96B0;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background-image:
+        linear-gradient(rgba(0,212,170,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,212,170,0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+
+    body::after {
+      content: '';
+      position: fixed; top: -200px; left: 50%; transform: translateX(-50%);
+      width: 900px; height: 600px; z-index: 0; pointer-events: none;
+      background: radial-gradient(ellipse at center, rgba(0,212,170,0.10) 0%, transparent 70%);
+    }
+
+    * { position: relative; z-index: 1; }
+
+    h1, h2, h3, h4 { font-family: 'Outfit', sans-serif; }
+
+    .container { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+
+    /* NAV */
+    nav {
+      padding: 20px 0;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 64px;
+    }
+    .nav-inner {
+      max-width: 900px; margin: 0 auto; padding: 0 24px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo {
+      display: flex; align-items: center; gap: 10px;
+      font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 1.1rem;
+      color: var(--text); text-decoration: none;
+    }
+    .nav-logo-icon {
+      width: 32px; height: 32px;
+      background: linear-gradient(135deg, var(--teal), var(--teal2));
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .back-link {
+      font-size: 0.85rem; color: var(--muted);
+      text-decoration: none; display: flex; align-items: center; gap: 6px;
+      transition: color .2s;
+    }
+    .back-link:hover { color: var(--teal); }
+
+    /* HERO */
+    .page-hero { text-align: center; margin-bottom: 56px; }
+    .step-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(0,212,170,0.1);
+      border: 1px solid rgba(0,212,170,0.25);
+      color: var(--teal);
+      font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 0.78rem;
+      padding: 6px 14px; border-radius: 100px;
+      letter-spacing: 0.04em; text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+    .step-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(1.3); }
+    }
+    .page-title {
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      font-weight: 800; line-height: 1.2;
+      margin-bottom: 16px;
+    }
+    .page-title span { color: var(--teal); }
+    .page-desc { color: var(--muted); font-size: 1rem; max-width: 560px; margin: 0 auto; }
+
+    /* BROKERS GRID */
+    .brokers-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 20px;
+      margin-bottom: 56px;
+    }
+
+    .broker-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px 24px;
+      display: flex; flex-direction: column; gap: 16px;
+      transition: border-color .2s, transform .2s;
+    }
+    .broker-card:hover {
+      border-color: rgba(0,212,170,0.3);
+      transform: translateY(-2px);
+    }
+    .broker-card.featured {
+      border-color: rgba(0,212,170,0.35);
+      background: linear-gradient(135deg, rgba(0,212,170,0.06), var(--card));
+    }
+
+    .broker-header {
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .broker-logo {
+      width: 48px; height: 48px; border-radius: 12px;
+      background: rgba(255,255,255,0.07);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 1rem;
+      color: var(--teal);
+    }
+    .broker-badge {
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.04em;
+      text-transform: uppercase; padding: 4px 10px; border-radius: 100px;
+    }
+    .badge-recommended {
+      background: rgba(0,212,170,0.15); color: var(--teal);
+      border: 1px solid rgba(0,212,170,0.3);
+    }
+    .badge-popular {
+      background: rgba(245,158,11,0.15); color: var(--amber);
+      border: 1px solid rgba(245,158,11,0.3);
+    }
+    .badge-new {
+      background: rgba(59,130,246,0.15); color: var(--blue);
+      border: 1px solid rgba(59,130,246,0.3);
+    }
+
+    .broker-name {
+      font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 1.1rem;
+    }
+    .broker-desc { font-size: 0.84rem; color: var(--muted); line-height: 1.5; }
+
+    .broker-specs {
+      display: flex; flex-direction: column; gap: 7px;
+    }
+    .spec-row {
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 0.8rem;
+    }
+    .spec-label { color: var(--muted); }
+    .spec-val { font-weight: 600; color: var(--text); }
+
+    .broker-btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      background: linear-gradient(135deg, var(--teal), var(--teal2));
+      color: #080c18;
+      font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 0.88rem;
+      padding: 12px 20px; border-radius: 10px;
+      text-decoration: none; transition: opacity .2s, transform .15s;
+      margin-top: auto;
+    }
+    .broker-btn:hover { opacity: .88; transform: translateY(-1px); }
+    .broker-btn.ghost {
+      background: rgba(255,255,255,0.06);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .broker-btn.ghost:hover { background: rgba(255,255,255,0.1); }
+
+    /* COMING SOON CARD */
+    .broker-card.coming-soon {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+    .broker-card.coming-soon .broker-btn {
+      background: rgba(255,255,255,0.06);
+      color: var(--muted);
+    }
+
+    /* ALREADY REGISTERED SECTION */
+    .registered-section {
+      background: rgba(0,212,170,0.06);
+      border: 1px solid rgba(0,212,170,0.2);
+      border-radius: 20px;
+      padding: 40px;
+      text-align: center;
+      margin-bottom: 64px;
+    }
+    .registered-section h3 {
+      font-size: 1.3rem; font-weight: 700; margin-bottom: 10px;
+    }
+    .registered-section p {
+      color: var(--muted); font-size: 0.9rem; margin-bottom: 24px; max-width: 440px; margin-left: auto; margin-right: auto;
+    }
+    .btn-clients {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: linear-gradient(135deg, var(--teal), var(--teal2));
+      color: #080c18;
+      font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 0.95rem;
+      padding: 14px 32px; border-radius: 10px;
+      text-decoration: none; transition: opacity .2s, transform .15s;
+    }
+    .btn-clients:hover { opacity: .88; transform: translateY(-1px); }
+
+    /* NOTE */
+    .info-note {
+      display: flex; align-items: flex-start; gap: 12px;
+      background: rgba(59,130,246,0.07);
+      border: 1px solid rgba(59,130,246,0.2);
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin-bottom: 64px;
+      font-size: 0.83rem; color: var(--muted); line-height: 1.5;
+    }
+    .info-note svg { flex-shrink: 0; color: var(--blue); margin-top: 1px; }
+
+    @media (max-width: 600px) {
+      .brokers-grid { grid-template-columns: 1fr; }
+      .registered-section { padding: 28px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <div class="nav-logo-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="18" height="18">
+            <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+            <polyline points="17 6 23 6 23 12"></polyline>
+          </svg>
+        </div>
+        CopyTrade Pro
+      </a>
+      <a href="index.html" class="back-link">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+        Volver al inicio
+      </a>
+    </div>
+  </nav>
+
+  <div class="container">
+
+    <div class="page-hero">
+      <div class="step-badge"><span class="step-dot"></span>Paso 1 de 2</div>
+      <h1 class="page-title">Elige tu <span>broker</span></h1>
+      <p class="page-desc">Abre tu cuenta en uno de nuestros brokers asociados. Tu capital queda en tu nombre, bajo tu control total.</p>
+    </div>
+
+    <div class="brokers-grid">
+
+      <!-- ── BROKER 1 — Reemplaza con datos reales ── -->
+      <div class="broker-card featured">
+        <div class="broker-header">
+          <div class="broker-logo">B1</div>
+          <span class="broker-badge badge-recommended">Recomendado</span>
+        </div>
+        <div class="broker-name">Nombre Broker 1</div>
+        <p class="broker-desc">Descripción corta del broker. Regulado, spreads competitivos, ejecución rápida.</p>
+        <div class="broker-specs">
+          <div class="spec-row"><span class="spec-label">Depósito mínimo</span><span class="spec-val">$100 USD</span></div>
+          <div class="spec-row"><span class="spec-label">Regulación</span><span class="spec-val">FCA / CySEC</span></div>
+          <div class="spec-row"><span class="spec-label">Plataforma</span><span class="spec-val">MT4 / MT5</span></div>
+        </div>
+        <!-- Reemplaza LINK_BROKER_1 con la URL de afiliado real -->
+        <a href="LINK_BROKER_1" target="_blank" rel="noopener" class="broker-btn">
+          Abrir cuenta
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      </div>
+
+      <!-- ── BROKER 2 — Reemplaza con datos reales ── -->
+      <div class="broker-card">
+        <div class="broker-header">
+          <div class="broker-logo">B2</div>
+          <span class="broker-badge badge-popular">Popular</span>
+        </div>
+        <div class="broker-name">Nombre Broker 2</div>
+        <p class="broker-desc">Descripción corta del broker. Ideal para principiantes, soporte en español.</p>
+        <div class="broker-specs">
+          <div class="spec-row"><span class="spec-label">Depósito mínimo</span><span class="spec-val">$200 USD</span></div>
+          <div class="spec-row"><span class="spec-label">Regulación</span><span class="spec-val">ASIC / FSA</span></div>
+          <div class="spec-row"><span class="spec-label">Plataforma</span><span class="spec-val">MT5</span></div>
+        </div>
+        <!-- Reemplaza LINK_BROKER_2 con la URL de afiliado real -->
+        <a href="LINK_BROKER_2" target="_blank" rel="noopener" class="broker-btn">
+          Abrir cuenta
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      </div>
+
+      <!-- ── BROKER 3 — Próximamente ── -->
+      <div class="broker-card coming-soon">
+        <div class="broker-header">
+          <div class="broker-logo">B3</div>
+          <span class="broker-badge badge-new">Próximamente</span>
+        </div>
+        <div class="broker-name">Próximo Broker</div>
+        <p class="broker-desc">Nuevo broker en proceso de integración. Disponible pronto.</p>
+        <div class="broker-specs">
+          <div class="spec-row"><span class="spec-label">Depósito mínimo</span><span class="spec-val">—</span></div>
+          <div class="spec-row"><span class="spec-label">Regulación</span><span class="spec-val">—</span></div>
+          <div class="spec-row"><span class="spec-label">Plataforma</span><span class="spec-val">—</span></div>
+        </div>
+        <a href="#" class="broker-btn ghost">Próximamente</a>
+      </div>
+
+    </div>
+
+    <div class="info-note">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      <span>Al registrarte con uno de nuestros brokers asociados, tu cuenta queda en tu nombre. Nosotros solo copiamos las operaciones. Una vez completado el registro, accede a tu área de clientes para descargar la guía PDF y activar tu Journal IA.</span>
+    </div>
+
+    <!-- ALREADY REGISTERED -->
+    <div class="registered-section">
+      <h3>¿Ya completaste tu registro?</h3>
+      <p>Accede a tu área exclusiva de clientes para descargar la guía de copy trading y activar tu Journal IA personalizado.</p>
+      <a href="clientes.html" class="btn-clients">
+        Acceder al área de clientes
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+    </div>
+
+  </div>
+
+</body>
+</html>
